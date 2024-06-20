@@ -5,11 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e4ae5f67-a013-4cbc-a589-49fa29fa9b6b" name="Changes" comment="GUI update">
+      <change afterPath="$PROJECT_DIR$/.idea/CSC325_Firebase_webview_Auth_StarterCode.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/files/key.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/files/WebContainer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/files/WebContainer.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/files/newhtml.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/files/newhtml.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/files/WebContainer.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/files/WebContainer.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/files/newhtml.html" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/files/newhtml.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -134,7 +132,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="jdk-20.0.2-azul-20.0.2-4caba194b151-895bf479" />
+        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.17890.1" />
+        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.17890.1" />
       </set>
     </attachedChunks>
   </component>
@@ -149,6 +148,7 @@
       <workItem from="1710690942533" duration="7228000" />
       <workItem from="1710732741753" duration="608000" />
       <workItem from="1710733353801" duration="5503000" />
+      <workItem from="1718906312560" duration="1971000" />
     </task>
     <task id="LOCAL-00001" summary="reduce Java version to 17">
       <option name="closed" value="true" />
