@@ -25,6 +25,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 public class AccessFBView {
@@ -43,7 +44,9 @@ public class AccessFBView {
     @FXML
     private TextArea outputField;
     @FXML
-    private ImageView profileImage;
+    private ImageView profileImageView;
+
+
     private boolean key;
     private ObservableList<Person> listOfUsers = FXCollections.observableArrayList();
     private Person person;
@@ -94,7 +97,6 @@ public class AccessFBView {
 
     public boolean readFirebase(){
         key = false;
-
         //asynchronously retrieve all documents
         ApiFuture<QuerySnapshot> future =  App.fstore.collection("References").get();
         // future.get() blocks on response
@@ -126,7 +128,8 @@ public class AccessFBView {
         }
         catch (InterruptedException | ExecutionException ex)
         {
-             ex.printStackTrace();
+            outputField.setText("Could not read from database.");
+            ex.printStackTrace();
         }
         return key;
     }
@@ -153,18 +156,18 @@ public class AccessFBView {
         UserRecord userRecord;
         try {
             userRecord = App.fauth.createUser(request);
-            System.out.println("Successfully created new user: " + userRecord.getUid());
+            outputField.setText("Successfully created new user: " + userRecord.getUid());
             return true;
 
         } catch (FirebaseAuthException ex) {
             // Logger.getLogger(FirestoreContext.class.getName()).log(Level.SEVERE, null, ex);
-            System.out.println("Could not register user.");
+            outputField.setText("Could not register user.");
             return false;
         }
     }
 
     public void aboutButton() {
-        outputField.setText(outputField.getText()+"About\nWeek 06 Assignment \n(c) Andrew Kehoe & Moaath Alrajab. All rights reserved.");
+        outputField.setText(outputField.getText()+"About\nWeek 06 Assignment \n(c) Andrew Kehoe & Moaath Alrajab. All rights reserved.\n");
     }
 
     public void closeButton() {
@@ -179,7 +182,10 @@ public class AccessFBView {
         currentDir = new File(new File(".").getCanonicalPath());
         fc.setInitialDirectory(currentDir);
         File currentFile = fc.showOpenDialog(null);
-        System.out.println(currentFile);
+
+        Image profileImage = new Image(currentFile.toURI().toString());
+        System.out.println(String.valueOf(currentFile));
+        profileImageView.setImage(profileImage);
     }
 
 }
