@@ -1,0 +1,37 @@
+.root {
+	-fx-font: 13px "sans-serif";
+}
+
+.button {
+	-fx-background-color: #AA7733;
+	-fx-background-radius: 10;
+}
+
+.rightpane {
+	-fx-background-color: #79DC05;
+	
+}
+
+.leftpane {
+	-fx-background-color: #AA7733;
+}
+
+.menu-bar {
+	-fx-background-color: #884411;
+}
+
+.h-box {
+	-fx-background-color: #999999;
+}
+
+.table-column {
+	-fx-background-color: #999999;
+	-fx-font: 13px "Arial";
+}
+
+.table-view .column-header .label{
+  -fx-text-fill: white;
+}
+.split-pane *.split-pane-divider {
+    -fx-padding: 0 0 0 0;
+}

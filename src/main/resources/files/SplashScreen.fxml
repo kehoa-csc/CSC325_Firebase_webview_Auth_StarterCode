@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="571.0" prefWidth="894.0" xmlns="http://javafx.com/javafx/22" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.csc325_firebase_webview_auth.view.SplashScreen">
+   <children>
+      <Label layoutX="337.0" layoutY="201.0" prefHeight="56.0" prefWidth="279.0" text="Week 06 Assignment" textAlignment="RIGHT">
+         <font>
+            <Font size="29.0" />
+         </font>
+      </Label>
+      <Button layoutX="447.0" layoutY="300.0" mnemonicParsing="false" onAction="#gotoStart" text="Begin" />
+      <Label layoutX="407.0" layoutY="244.0" prefHeight="56.0" prefWidth="128.0" text="Splash Screen" textAlignment="RIGHT">
+         <font>
+            <Font size="20.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

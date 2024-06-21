@@ -25,8 +25,15 @@ public class App extends Application {
     public void start(Stage primaryStage) throws Exception {
         fstore = contxtFirebase.firebase();
         fauth = FirebaseAuth.getInstance();
-        scene = new Scene(loadFXML("/files/AccessFBView.fxml"));
+        //scene = new Scene(loadFXML("/files/AccessFBView.fxml"));
+        scene = new Scene(loadFXML("/files/SplashScreen.fxml"));
         primaryStage.setScene(scene);
+        try {
+            scene.getStylesheets().add(getClass().getResource("/files/main.css").toExternalForm());
+        } catch (NullPointerException e) {
+            System.out.println("Failed to load css.\n" + e.getMessage());
+        }
+
         primaryStage.show();
     }
 

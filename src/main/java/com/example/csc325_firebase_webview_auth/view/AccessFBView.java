@@ -10,6 +10,7 @@ import com.google.cloud.firestore.WriteResult;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -24,7 +25,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-
+import javafx.scene.image.ImageView;
+import javafx.stage.FileChooser;
 public class AccessFBView {
 
 
@@ -40,12 +42,15 @@ public class AccessFBView {
     private Button readButton;
     @FXML
     private TextArea outputField;
-     private boolean key;
+    @FXML
+    private ImageView profileImage;
+    private boolean key;
     private ObservableList<Person> listOfUsers = FXCollections.observableArrayList();
     private Person person;
     public ObservableList<Person> getListOfUsers() {
         return listOfUsers;
     }
+    private FileChooser fc = new FileChooser();
 
     void initialize() {
 
@@ -87,9 +92,8 @@ public class AccessFBView {
         ApiFuture<WriteResult> result = docRef.set(data);
     }
 
-        public boolean readFirebase()
-         {
-             key = false;
+    public boolean readFirebase(){
+        key = false;
 
         //asynchronously retrieve all documents
         ApiFuture<QuerySnapshot> future =  App.fstore.collection("References").get();
@@ -127,7 +131,7 @@ public class AccessFBView {
         return key;
     }
 
-        public void sendVerificationEmail() {
+    public void sendVerificationEmail() {
         try {
             UserRecord user = App.fauth.getUser("name");
             //String url = user.getPassword();
@@ -137,6 +141,7 @@ public class AccessFBView {
     }
 
     public boolean registerUser() {
+        System.out.println("Attempting to register new user.");
         UserRecord.CreateRequest request = new UserRecord.CreateRequest()
                 .setEmail("user@example.com")
                 .setEmailVerified(false)
@@ -152,9 +157,29 @@ public class AccessFBView {
             return true;
 
         } catch (FirebaseAuthException ex) {
-           // Logger.getLogger(FirestoreContext.class.getName()).log(Level.SEVERE, null, ex);
+            // Logger.getLogger(FirestoreContext.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println("Could not register user.");
             return false;
         }
-
     }
+
+    public void aboutButton() {
+        outputField.setText(outputField.getText()+"About\nWeek 06 Assignment \n(c) Andrew Kehoe & Moaath Alrajab. All rights reserved.");
+    }
+
+    public void closeButton() {
+        System.exit(0);
+    }
+
+    public void imageSelect() throws IOException {
+        FileChooser.ExtensionFilter imgFilter = new FileChooser.ExtensionFilter("PNG files (*.png)", "*.png");
+        fc.getExtensionFilters().add(imgFilter);
+
+        File currentDir = null;
+        currentDir = new File(new File(".").getCanonicalPath());
+        fc.setInitialDirectory(currentDir);
+        File currentFile = fc.showOpenDialog(null);
+        System.out.println(currentFile);
+    }
+
 }
