@@ -24,13 +24,14 @@
           <Menu mnemonicParsing="false" text="File">
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#imageSelect" text="Set Profile Image..." />
+                  <MenuItem mnemonicParsing="false" onAction="#uploadPicButton" text="Upload Profile Image..." />
                   <MenuItem mnemonicParsing="false" onAction="#registerUser" text="Register" />
               <MenuItem mnemonicParsing="false" onAction="#closeButton" text="Close" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Edit">
             <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
+              <MenuItem mnemonicParsing="false" onAction="#deleteButton" text="Delete" />
             </items>
           </Menu>
           <Menu mnemonicParsing="false" text="Help">
@@ -61,10 +62,11 @@
             <VBox prefHeight="535.0" prefWidth="551.0">
                <children>
                   <TextArea fx:id="outputField" prefHeight="184.0" prefWidth="514.0" />
-                  <TableView prefHeight="351.0" prefWidth="514.0">
+                  <TableView fx:id="dbTable" prefHeight="351.0" prefWidth="514.0">
                     <columns>
-                      <TableColumn prefWidth="75.0" text="C1" />
-                      <TableColumn prefWidth="75.0" text="C2" />
+                      <TableColumn fx:id="colName" prefWidth="218.0" text="Name" />
+                      <TableColumn fx:id="colMajor" minWidth="0.0" prefWidth="232.0" text="Major" />
+                        <TableColumn fx:id="colAge" minWidth="0.0" prefWidth="63.0" text="Age" />
                     </columns>
                   </TableView>
                </children>

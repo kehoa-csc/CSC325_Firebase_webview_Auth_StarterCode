@@ -3,31 +3,38 @@ package com.example.csc325_firebase_webview_auth.view;//package modelview;
 import com.example.csc325_firebase_webview_auth.model.Person;
 import com.example.csc325_firebase_webview_auth.viewmodel.AccessDataViewModel;
 import com.google.api.core.ApiFuture;
-import com.google.cloud.firestore.DocumentReference;
-import com.google.cloud.firestore.QueryDocumentSnapshot;
-import com.google.cloud.firestore.QuerySnapshot;
-import com.google.cloud.firestore.WriteResult;
+import com.google.auth.oauth2.GoogleCredentials;
+import com.google.cloud.WriteChannel;
+import com.google.cloud.firestore.*;
+import com.google.cloud.storage.BlobId;
+import com.google.cloud.storage.BlobInfo;
+import com.google.cloud.storage.Bucket;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
 import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.UserRecord;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import com.google.firebase.cloud.StorageClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
+
+import static com.example.csc325_firebase_webview_auth.model.FirestoreContext.fireApp;
+import static com.example.csc325_firebase_webview_auth.view.App.fstore;
+
 public class AccessFBView {
 
 
@@ -45,7 +52,14 @@ public class AccessFBView {
     private TextArea outputField;
     @FXML
     private ImageView profileImageView;
-
+    @FXML
+    private TableColumn<Person,Integer> colAge;
+    @FXML
+    private TableColumn<Person,String> colMajor;
+    @FXML
+    private TableColumn<Person,String> colName;
+    @FXML
+    public TableView<Person> dbTable;
 
     private boolean key;
     private ObservableList<Person> listOfUsers = FXCollections.observableArrayList();
@@ -53,9 +67,17 @@ public class AccessFBView {
     public ObservableList<Person> getListOfUsers() {
         return listOfUsers;
     }
+
+
     private FileChooser fc = new FileChooser();
 
+    @FXML
     void initialize() {
+        colName.setCellValueFactory(new PropertyValueFactory<Person, String>("name"));
+        colMajor.setCellValueFactory(new PropertyValueFactory<Person, String>("major"));
+        colAge.setCellValueFactory(new PropertyValueFactory<Person, Integer>("age"));
+
+        dbTable.setItems(listOfUsers);
 
         AccessDataViewModel accessDataViewModel = new AccessDataViewModel();
         nameField.textProperty().bindBidirectional(accessDataViewModel.userNameProperty());
@@ -85,7 +107,7 @@ public class AccessFBView {
 
     public void addData() {
 
-        DocumentReference docRef = App.fstore.collection("References").document(UUID.randomUUID().toString());
+        DocumentReference docRef = fstore.collection("References").document(UUID.randomUUID().toString());
 
         Map<String, Object> data = new HashMap<>();
         data.put("Name", nameField.getText());
@@ -98,7 +120,7 @@ public class AccessFBView {
     public boolean readFirebase(){
         key = false;
         //asynchronously retrieve all documents
-        ApiFuture<QuerySnapshot> future =  App.fstore.collection("References").get();
+        ApiFuture<QuerySnapshot> future =  fstore.collection("References").get();
         // future.get() blocks on response
         List<QueryDocumentSnapshot> documents;
         try
@@ -111,12 +133,16 @@ public class AccessFBView {
                 {
                     outputField.setText(outputField.getText()+ document.getData().get("Name")+ " , Major: "+
                             document.getData().get("Major")+ " , Age: "+
-                            document.getData().get("Age")+ " \n ");
+                            document.getData().get("Age")+ " \n");
                     System.out.println(document.getId() + " => " + document.getData().get("Name"));
                     person  = new Person(String.valueOf(document.getData().get("Name")),
                             document.getData().get("Major").toString(),
                             Integer.parseInt(document.getData().get("Age").toString()));
                     listOfUsers.add(person);
+
+                    dbTable.setItems(listOfUsers);
+                    //System.out.println(dbTable.getItems().size());
+                    //dbTable.getItems().add(person);
                 }
             }
             else
@@ -167,7 +193,7 @@ public class AccessFBView {
     }
 
     public void aboutButton() {
-        outputField.setText(outputField.getText()+"About\nWeek 06 Assignment \n(c) Andrew Kehoe & Moaath Alrajab. All rights reserved.\n");
+        outputField.setText(outputField.getText()+"About\nWeek 06 Assignment \n(c) 2024 Andrew Kehoe & Moaath Alrajab. All rights reserved.\n");
     }
 
     public void closeButton() {
@@ -186,6 +212,28 @@ public class AccessFBView {
         Image profileImage = new Image(currentFile.toURI().toString());
         System.out.println(String.valueOf(currentFile));
         profileImageView.setImage(profileImage);
+    }
+
+    public void deleteButton() {
+        listOfUsers.clear();
+        outputField.setText("");
+        dbTable.setItems(listOfUsers);
+    }
+
+    public void uploadPicButton() throws IOException {
+        if(nameField.getText() == null) {
+            outputField.setText(outputField.getText()+"\nPlease put in name for image upload.");
+        } else {
+
+
+        StorageClient storageClient = StorageClient.getInstance(fireApp);
+        InputStream testFile  = new FileInputStream(profileImageView.getImage().getUrl().substring(6));
+        String blobString = (nameField.getText() + ".png");
+
+        storageClient.bucket().create(blobString, testFile, "image/png", Bucket.BlobWriteOption.userProject("csc325-78793"));
+        outputField.setText(outputField.getText()+"\nYour image has been sent to Firebase.");
+
+        }
     }
 
 }

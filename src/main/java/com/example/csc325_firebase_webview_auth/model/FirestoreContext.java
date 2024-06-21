@@ -12,13 +12,14 @@ import java.io.IOException;
  * @author MoaathAlrajab
  */
 public class FirestoreContext {
-
+    public static FirebaseApp fireApp;
     public Firestore firebase() {
         try {
             FirebaseOptions options = new FirebaseOptions.Builder()
                     .setCredentials(GoogleCredentials.fromStream(getClass().getResourceAsStream("/files/key.json")))
+                    .setStorageBucket("csc325-78793.appspot.com")
                     .build();
-            FirebaseApp.initializeApp(options);
+            fireApp = FirebaseApp.initializeApp(options);
             System.out.println("Firebase is initialized");
         } catch (IOException ex) {
             ex.printStackTrace();
